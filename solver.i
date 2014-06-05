@@ -3,7 +3,6 @@
 #include <vector>
 #include "solver.h"
 
-
 bool solve(Solver * s) { return s->solve(); }
 
 //Memory leaks here!
@@ -22,8 +21,6 @@ void add_clause(Solver * s, std::vector<lit *> cl) {
     s -> addClause(lcl);
 }
 
-//Swig complains here that newVar is not destroyed
-//A solution is changing everything to int and casting
 var new_var(Solver * s) { return s -> newVar(); }
 
 lit * mk_lit(var v, int sign) {
@@ -38,9 +35,11 @@ int int_of_var(var v) { return (int)v; }
 %}
 
 %include "std_vector.i"
-
 %template(VarVector) std::vector<int>;
 %template(LitVector) std::vector<lit *>;
+//Required to avoid memory leak errors
+%feature("novaluewrapper") var;
+typedef int var;
 
 Solver * stupid_sat;
 
