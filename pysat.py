@@ -87,7 +87,7 @@ class SatSolver(object):
         depending on sat or unsat"""
         print 'solving...'
         print
-        solver.solve(self.sat)
+        return solver.solve(self.sat)
 
     def get_model(self):
         m = solver.get_sat_model(self.sat)
